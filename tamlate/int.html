@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+    {% if int|divisibleby:2 %}
+        even
+    {% else %}
+        odd
+    {% endif %}
+    {% if text %}
+        {% include 'text.html' with word=text %}
+    {% endif %}
+
+
+</body>
+</html>

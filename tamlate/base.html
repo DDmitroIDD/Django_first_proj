@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div style="background-color: aqua">
+    {% block content %}
+        Base page
+        <br>
+        <a href="{% url 'chil' %}">To the chil page</a>
+        <br>
+        <a href="{% url 'article_number' rand_int %}" style="background-color: bisque">To the random id page</a>
+        <br>
+        <a href="{% url 'article_name' rand_int rand_symbol %}"
+           style="background-color: #ffc800">To the random symbol page</a>
+    {% endblock %}
+</div>
+</body>
+</html>
