@@ -40,8 +40,6 @@ def users(request):
 def article_num(request, article_number=None, slug_text=''):
     if slug_text:
         return render(request, 'article_name.html')
-    else:
-        return render(request, 'article_number.html')
 
 
 # homework 2
