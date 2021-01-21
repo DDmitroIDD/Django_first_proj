@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 
 class Article(models.Model):
     name = models.CharField(max_length=100)
-    author = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='article')
+    author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     text = models.TextField(null=True, blank=True)
 
     def __str__(self):
@@ -14,16 +14,17 @@ class Article(models.Model):
 
 
 class CommentToArticle(models.Model):
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comment_to_article')
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
     article = models.ForeignKey(Article, on_delete=models.CASCADE)
     comment = models.TextField(null=True, blank=True)
+    comment_to_comment = models.ForeignKey('app.CommentToArticle', null=True, blank=True, on_delete=models.DO_NOTHING)
 
     def __str__(self):
         return f'Comment #{self.id} Article - \"{self.article.name}\" from \"{self.author}\"'
 
 
 class LikeToArticle(models.Model):
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='like_to_article')
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
     article = models.ForeignKey(Article, on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)
 
@@ -32,7 +33,7 @@ class LikeToArticle(models.Model):
 
 
 class DislikeToArticle(models.Model):
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='dislike_to_article')
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
     article = models.ForeignKey(Article, on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)
 
@@ -41,7 +42,7 @@ class DislikeToArticle(models.Model):
 
 
 class LikeToComment(models.Model):
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='like_to_comment')
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
     comment = models.ForeignKey(CommentToArticle, on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)
 
@@ -50,18 +51,9 @@ class LikeToComment(models.Model):
 
 
 class DislikeToComment(models.Model):
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='author_dislike')
-    comment = models.ForeignKey(CommentToArticle, on_delete=models.CASCADE, related_name='comments')
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    comment = models.ForeignKey(CommentToArticle, on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f'Dislike to comment #{self.comment.id} from \"{self.author}\"'
-
-
-class CommentToComment(models.Model):
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='authors_comment')
-    comment = models.ForeignKey(CommentToArticle, on_delete=models.CASCADE, related_name='comments_to_comment')
-    comment_to_comment = models.TextField(null=True, blank=True)
-
-    def __str__(self):
-        return f'Comment to comment #{self.comment.id} from \"{self.author}\"'
