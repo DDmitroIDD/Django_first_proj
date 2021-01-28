@@ -1,18 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-    That's template!
-    {{ my_dict.some_key }}
-    {% if display_num %}
-        {{ my_num }}
-    {% else %}
-        <span> We don't display num </span>
-    {% endif %}
-    <a href="{% url 'second' %}">Another page</a>
-</body>
-</html>
+{% block content %}
+        Success
+
+    <form action="{% url 'logout' %}">
+    {% csrf_token %}
+    <p>Hello {{ form }}</p>
+    <input type="submit" value="LOGOUT">
+    </form>
+    <form action="{% url 'change_password' %}">
+    <input type="submit" value="Change password">
+    </form>
+
+{% endblock %}
